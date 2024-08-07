@@ -57,7 +57,10 @@ class UrlShortenerController extends Controller
                 $shortUrl = $this->urlShortener->encode($request->url);
             }
 
-            return response()->json(['short_url' => $shortUrl], 201);
+            return response()->json([
+                'input_url' => $request->url,
+                'short_url' => $shortUrl
+            ], 201);
         } catch (Exception) {
             return response()->json(['error' => 'Something went wrong, please try again later'], 500);
         }
@@ -85,7 +88,10 @@ class UrlShortenerController extends Controller
             if ($originalUrl == null)
                 return response()->json(['error' => 'Shorten url not found'], 404);
 
-            return response()->json(['url' => $originalUrl], 201);
+            return response()->json([
+                'short_url' => $request->short_url,
+                'url' => $originalUrl
+            ], 201);
         } catch (Exception) {
             return response()->json(['error' => 'Something went wrong, please try again later'], 500);
         }

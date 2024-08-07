@@ -70,9 +70,10 @@ Example Request:
 Example Response:
 
  ```json
-    {
-      "short_url": "http://example.com/abc123"
-    }
+{
+    "input_url": "https://www.example.com",
+    "short_url": "http://example.com/abc123"
+}
  ```
 
 * URL: /decode
@@ -92,9 +93,10 @@ Example Request:
 Example Response:
 
  ```json
-    {
-      "url": "https://www.example.com"
-    }
+{
+    "short_url": "http://example.com/abc123",
+    "url": "https://www.example.com"
+}
  ```
 
 ## Running Tests
