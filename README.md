@@ -1,6 +1,6 @@
-# URL Shortening Service
+# URL Shortener
 
-This project is a URL shortening service built with Laravel. It allows you to shorten long URLs and retrieve the original URLs from the
+This project is a UrlShortener built with Laravel. It allows you to shorten long URLs and retrieve the original URLs from the
 shortened versions. The service provides two endpoints: `/encode` for shortening URLs and `/decode` for retrieving the original URLs.
 
 ## Features
@@ -17,8 +17,8 @@ Follow these steps to set up the project on your local machine:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/url-shortening-service.git
-   cd url-shortening-service
+   git clone https://github.com/JasBrar23/UrlShortener.git
+   cd UrlShortener
    ```
 
 2. **Install dependencies::**
