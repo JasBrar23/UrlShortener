@@ -8,7 +8,6 @@ shortened versions. The service provides two endpoints: `/encode` for shortening
 - **Encode URLs**: Convert long URLs into short URLs.
 - **Decode URLs**: Retrieve original URLs from short URLs.
 - **Memory or Database Storage**: Choose between in-memory or database storage for URL mappings.
-- **JSON API**: Interact with the service via JSON-based API endpoints.
 
 ## Installation
 
