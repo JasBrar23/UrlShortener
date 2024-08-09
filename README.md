@@ -72,7 +72,8 @@ Example Response:
  ```json
 {
     "input_url": "https://www.example.com",
-    "short_url": "http://example.com/abc123"
+    "short_url": "http://example.com/abc123",
+    "short_method": "memory"
 }
  ```
 
@@ -95,7 +96,8 @@ Example Response:
  ```json
 {
     "short_url": "http://example.com/abc123",
-    "url": "https://www.example.com"
+    "url": "https://www.example.com",
+    "short_method": "memory"
 }
  ```
 

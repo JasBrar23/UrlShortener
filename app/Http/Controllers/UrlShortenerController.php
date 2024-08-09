@@ -14,7 +14,8 @@ use Illuminate\Http\Response;
 
 class UrlShortenerController extends Controller
 {
-    const SHORTEN_METHOD = 'memory'; // Supported  method memory | database
+    private string $SHORTEN_METHOD = 'memory'; // Supported  method memory | database
+    const SUPPORTED_SHORTEN_METHODS = ['memory', 'database'];
 
     /**
      * Initializes the UrlShortener service globally, making it accessible throughout the controller.
@@ -42,7 +43,9 @@ class UrlShortenerController extends Controller
      * - If set to 'memory', the URL will be stored temporarily in memory.
      * - If set to 'database', a record will be created in the database.
      *
-     * @param EncodeUrlRequest $request url - The request containing the URL to be shortened. Validation will ensure it is a valid URL.
+     * @param EncodeUrlRequest $request
+     * url - The request containing the URL to be shortened. Validation will ensure it is a valid URL.
+     * short_method - (optional) Sets the method of storing the URLs
      * @return ResponseFactory|Application|JsonResponse|Response The response containing the shortened URL or an error message.
      */
     public function encode(EncodeUrlRequest $request)
@@ -50,8 +53,12 @@ class UrlShortenerController extends Controller
         // Check if the request wants JSON output, if not then return back
         if (!$request->wantsJson()) return response('Not Acceptable', 406);
 
+        if ($request->short_method && in_array($request->short_method, self::SUPPORTED_SHORTEN_METHODS)) {
+            $this->SHORTEN_METHOD = $request->short_method;
+        }
+
         try {
-            if (self::SHORTEN_METHOD == 'memory') {
+            if ($this->SHORTEN_METHOD == 'memory') {
                 $shortUrl = $this->urlShortener->encodeMemory($request->url);
             } else {
                 $shortUrl = $this->urlShortener->encode($request->url);
@@ -59,7 +66,8 @@ class UrlShortenerController extends Controller
 
             return response()->json([
                 'input_url' => $request->url,
-                'short_url' => $shortUrl
+                'short_url' => $shortUrl,
+                'short_method' => $this->SHORTEN_METHOD
             ], 201);
         } catch (Exception) {
             return response()->json(['error' => 'Something went wrong, please try again later'], 500);
@@ -71,7 +79,9 @@ class UrlShortenerController extends Controller
      * - If set to 'memory', the original URL is fetched from temporary memory storage.
      * - If set to 'database', the original URL is retrieved from the database.
      *
-     * @param DecodeUrlRequest $request short_url - The request containing the short URL to be decoded. Validation will ensure it is a valid URL.
+     * @param DecodeUrlRequest $request
+     * short_url - The request containing the short URL to be decoded. Validation will ensure it is a valid URL.
+     * short_method - (optional) Sets the method of storing the URLs
      * @return ResponseFactory|Application|JsonResponse|Response The response containing the original URL or an error message.
      */
     public function decode(DecodeUrlRequest $request)
@@ -79,8 +89,12 @@ class UrlShortenerController extends Controller
         // Check if the request wants JSON output, if not then return back
         if (!$request->wantsJson()) return response('Not Acceptable', 406);
 
+        if ($request->short_method && in_array($request->short_method, self::SUPPORTED_SHORTEN_METHODS)) {
+            $this->SHORTEN_METHOD = $request->short_method;
+        }
+
         try {
-            if (self::SHORTEN_METHOD == 'memory')
+            if ($this->SHORTEN_METHOD == 'memory')
                 $originalUrl = $this->urlShortener->decodeMemory($request->short_url);
             else
                 $originalUrl = $this->urlShortener->decode($request->short_url);
@@ -90,7 +104,8 @@ class UrlShortenerController extends Controller
 
             return response()->json([
                 'short_url' => $request->short_url,
-                'url' => $originalUrl
+                'url' => $originalUrl,
+                'short_method' => $this->SHORTEN_METHOD
             ], 201);
         } catch (Exception) {
             return response()->json(['error' => 'Something went wrong, please try again later'], 500);
