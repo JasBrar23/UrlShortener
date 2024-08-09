@@ -58,6 +58,7 @@ Follow these steps to set up the project on your local machine:
 * Method: GET
 * Parameters:
     * url (required): The original URL to be shortened.
+    * short_method (optional) Sets the method of storing the URLs
 * Response:
     * short_url: The shortened URL.
 
@@ -81,6 +82,7 @@ Example Response:
 * Method: GET
 * Parameters:
     * short_url (required): The original URL to be shortened.
+    * short_method (optional) Sets the method of storing the URLs
 * Response:
     * url: The original URL if found.
     * error: An error message if the short URL is not found.
